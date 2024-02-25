@@ -8,11 +8,14 @@ public interface Instruction {
   String getRT();
   String getRD();
   String getShamt();
-  String toMachine();
-  void setRS(String[] args);
-  void setRT(String[] args);
-  void setRD(String[] args);
-  void setShamt(String[] args);
+
+  void setRS(String[] argz);
+  void setRT(String[] argz);
+  void setRD(String[] argz);
+  void setShamt(String[] argz);
   String binToDec(String bin);
   String decToHex(String dec);
+  String hexHelper(Object hexDig);
+  void toMachine(String[] argz);
+  String hexToBin(String hex);
 }

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="LimitedAssembler:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/LimitedAssembler_jar</output-path>
+    <root id="archive" name="LimitedAssembler.jar">
+      <element id="module-output" name="LimitedAssembler" />
+    </root>
+  </artifact>
+</component>

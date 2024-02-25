@@ -6,7 +6,6 @@ public class ImmediateType extends AbstractInstruction {
   }
 
   @Override
-  public String toMachine() {
-    return null;
+  public void toMachine(String[] argz) {
   }
 }

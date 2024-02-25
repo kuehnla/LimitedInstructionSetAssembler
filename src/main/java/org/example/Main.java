@@ -2,9 +2,10 @@ package org.example;
 
 public class Main {
   public static void main(String[] args) {
-    Instruction in = initOp(args[0]);
-    in.toMachine();
-    System.out.printf(in.getWord(), "\n");
+    String[] argz = args[0].split(" ");
+    Instruction in = initOp(argz[0]);
+    in.toMachine(argz);
+    System.out.print(in.getWord() + "\n");
   }
 
   private static AbstractInstruction initOp(String op) {

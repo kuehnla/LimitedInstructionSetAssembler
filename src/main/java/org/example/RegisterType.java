@@ -6,7 +6,6 @@ public class RegisterType extends AbstractInstruction {
     op = "000000";
   }
   @Override
-  public String toMachine() {
-    return null;
+  public void toMachine(String[] argz) {
   }
 }
