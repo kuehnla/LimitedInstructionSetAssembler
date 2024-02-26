@@ -16,13 +16,10 @@ public class JumpType extends AbstractInstruction {
   public void toMachine(String[] argz) {
     setInstrIndex(argz);
 
-    StringBuilder sb = new StringBuilder();
-    StringBuilder sbInd = new StringBuilder();
+    StringBuilder sb = new StringBuilder(op);
+    StringBuilder sbInd = new StringBuilder(instrIndex);
 
-    sbInd.append(instrIndex);
-    sb.append(op);
-
-    while (sbInd.length() < 26) sbInd.append(0);                // add needed leading 0's
+    while (sbInd.length() < 26) sbInd.insert(0, 0);// add needed leading 0's
     while (sbInd.length() > 26) sbInd.deleteCharAt(0);    // remove extra leading 0's
 
     sb.append(sbInd);                                           // form the instruction's machine code in binary
