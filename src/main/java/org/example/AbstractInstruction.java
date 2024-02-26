@@ -175,7 +175,7 @@ public abstract class AbstractInstruction implements Instruction {
     }
 
     try {
-      arg = arg.split(",")[0];
+      arg = arg.split(",")[0].split("#")[0];
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
