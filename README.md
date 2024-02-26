@@ -1,4 +1,4 @@
-A simple Java program that converts a limited set of MIPS assembly instructions into hexadecimal machine code with the goal of furthering understanding the relationship between 
+A simple Java program that converts a limited set of MIPS assembly instructions into hexadecimal machine code with the goal of furthering understanding of the relationship between 
 symbolic representations of code and machine code. 
 
 Included instructions:
