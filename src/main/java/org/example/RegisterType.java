@@ -9,6 +9,7 @@ public class RegisterType extends AbstractInstruction {
   @Override
   public void toMachine(String[] argz) {
     StringBuilder sb = new StringBuilder("000000");
+
     rd = decToBin(registers(argFinder(argz, 1)), 5);
     rs = decToBin(registers(argFinder(argz, 2)), 5);
     rt = decToBin(registers(argFinder(argz, 3)), 5);
