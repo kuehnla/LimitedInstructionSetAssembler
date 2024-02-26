@@ -1,5 +1,8 @@
 package org.example;
 
+/*
+ * A class representing a syscall instruction.
+ */
 public class Syscall extends AbstractInstruction {
   public String code;
   public Syscall() {
@@ -8,6 +11,9 @@ public class Syscall extends AbstractInstruction {
     code = "00000000000000000000";
   }
 
+  /*
+   * Converts syscall instruction into hexadecimal machine code.
+   */
   @Override
   public void toMachine(String[] argz) {
     StringBuilder s = new StringBuilder();
