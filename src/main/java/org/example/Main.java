@@ -15,8 +15,8 @@ public class Main {
       op = s;
       break;
     }
-
     assert op != null;
+    op = op.split("#")[0];
     return switch (op) {
       //R-TYPES:
       case "add" -> new RegisterType("100000");

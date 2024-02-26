@@ -3,6 +3,7 @@ package org.example;
 /*
  * A class representing a J-TYPE instruction.
  */
+
 public class JumpType extends AbstractInstruction {
   String instrIndex;
   public JumpType() {
@@ -31,6 +32,11 @@ public class JumpType extends AbstractInstruction {
    * Removes extra characters and converts the instruction index from hex to binary.
    */
   private void setInstrIndex(String[] argz) {
-    instrIndex = hexToBin(argz[1].split("x")[1].split("#")[0]);
+    for (String s : argz) {
+      if (s == null || s.isEmpty() || s.equals("j")) continue;
+      instrIndex = s;
+      break;
+    }
+    instrIndex = hexToBin(instrIndex.split("x")[1].split("#")[0]);
   }
 }
