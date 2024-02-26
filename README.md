@@ -20,12 +20,12 @@ Included instructions:
     syscall
 
 Usage: 
+
 $> java -jar LimitedAssembler.jar "add $t2, $s6, $s4"
 02d45020
 
 $> java -jar LimitedAssembler.jar "syscall"
 0000000c
-
 
 $> java -jar LimitedAssembler.jar "J 0x00000c5"
 0x080000c5
