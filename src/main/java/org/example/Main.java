@@ -3,12 +3,20 @@ package org.example;
 public class Main {
   public static void main(String[] args) {
     String[] argz = args[0].split(" ");
-    Instruction in = initOp(argz[0]);
+    Instruction in = initOp(argz);
     in.toMachine(argz);
     System.out.print(in.getWord() + "\n");
   }
 
-  private static AbstractInstruction initOp(String op) {
+  private static AbstractInstruction initOp(String[] argz) {
+    String op = null;
+    for (String s : argz) {
+      if (s == null || s.isEmpty()) continue;
+      op = s;
+      break;
+    }
+
+    assert op != null;
     return switch (op) {
       //R-TYPES:
       case "add" -> new RegisterType("100000");

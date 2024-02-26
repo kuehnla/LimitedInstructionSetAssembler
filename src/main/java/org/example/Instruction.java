@@ -15,9 +15,11 @@ public interface Instruction {
   void setShamt(String[] argz);
   String binToDec(String bin);
   String decToHex(String dec);
+  String decToBin(String dec, int bits);
   String hexHelper(Object hexDig);
   void toMachine(String[] argz);
   String hexToBin(String hex);
 
   String registers(String reg);
+  String argFinder(String[] argz, int index);
 }

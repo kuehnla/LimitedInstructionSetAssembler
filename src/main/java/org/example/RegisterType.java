@@ -8,9 +8,17 @@ public class RegisterType extends AbstractInstruction {
   }
   @Override
   public void toMachine(String[] argz) {
-    rd = argz[1];
-    rs = argz[2];
-    rt = argz[3];
+    StringBuilder sb = new StringBuilder("000000");
+    rd = decToBin(registers(argFinder(argz, 1)), 5);
+    rs = decToBin(registers(argFinder(argz, 2)), 5);
+    rt = decToBin(registers(argFinder(argz, 3)), 5);
+    sb.append(rs);
+    sb.append(rt);
+    sb.append(rd);
+    sb.append(ZEROS);
+    sb.append(funct);
 
+    word = binToDec(sb.toString());
+    word = decToHex(word);
   }
 }
