@@ -7,37 +7,6 @@ public abstract class AbstractInstruction implements Instruction {
   public String getWord() {
     return word;
   }
-
-  @Override
-  public String getOp() {
-    return op;
-  }
-
-  @Override
-  public String getFunct() {
-    return funct;
-  }
-
-  @Override
-  public String getRS() {
-    return rs;
-  }
-
-  @Override
-  public String getRT() {
-    return rt;
-  }
-
-  @Override
-  public String getRD() {
-    return rd;
-  }
-
-  @Override
-  public String getShamt() {
-    return shamt;
-  }
-
   @Override
   public void setRS(String[] argz) {return;}
 
@@ -50,11 +19,17 @@ public abstract class AbstractInstruction implements Instruction {
   @Override
   public void setShamt(String[] argz) {return;}
 
+  /*
+   * Takes information about the instruction and based on instruction-type
+   * (R-TYPE, I-TYPE, J-TYPE, syscall), produces the correct hexadecimal
+   * machine code.
+   */
   @Override
-  public void toMachine(String[] argz) {
-    return;
-  }
+  public void toMachine(String[] argz) {}
 
+  /*
+   * Converts a hexadecimal number to binary.
+   */
   @Override
   public String hexToBin(String hex) {
     hex = hex.replaceAll("0", "0000");
@@ -76,6 +51,9 @@ public abstract class AbstractInstruction implements Instruction {
     return hex;
   }
 
+  /*
+   * Converts a binary number to decimal.
+   */
   @Override
   public String binToDec(String bin) {
     int dec = 0;
@@ -85,6 +63,9 @@ public abstract class AbstractInstruction implements Instruction {
     return String.valueOf(dec);
   }
 
+  /*
+   * Converts a decimal integer to hexadecimal.
+   */
   @Override
   public String decToHex(String dec) {
     int decimal = Integer.parseInt(dec);
@@ -101,6 +82,9 @@ public abstract class AbstractInstruction implements Instruction {
     return hex.reverse().toString();
   }
 
+  /*
+   * Converts a decimal integer to a bit string of specified length.
+   */
   @Override
   public String decToBin(String dec, int bits) {
     StringBuilder sb = new StringBuilder();
@@ -115,6 +99,9 @@ public abstract class AbstractInstruction implements Instruction {
     return sb.toString();
   }
 
+  /*
+   * Converts an integer from decimal to hexadecimal or vice versa.
+   */
   @Override
   public String hexHelper(Object digit) {
     if (digit instanceof Integer) {

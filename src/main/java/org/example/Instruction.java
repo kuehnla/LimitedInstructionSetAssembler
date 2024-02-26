@@ -2,13 +2,6 @@ package org.example;
 
 public interface Instruction {
   String getWord();
-  String getOp();
-  String getFunct();
-  String getRS();
-  String getRT();
-  String getRD();
-  String getShamt();
-
   void setRS(String[] argz);
   void setRT(String[] argz);
   void setRD(String[] argz);

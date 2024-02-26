@@ -6,6 +6,10 @@ public class RegisterType extends AbstractInstruction {
     this.funct = funct;
     op = "000000";
   }
+
+  /*
+   * Converts R-TYPE instruction, specifying function, and registers into hexadecimal machine code.
+   */
   @Override
   public void toMachine(String[] argz) {
     StringBuilder sb = new StringBuilder("000000");
