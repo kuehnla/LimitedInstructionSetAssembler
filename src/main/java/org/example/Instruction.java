@@ -18,4 +18,6 @@ public interface Instruction {
   String hexHelper(Object hexDig);
   void toMachine(String[] argz);
   String hexToBin(String hex);
+
+  String registers(String reg);
 }

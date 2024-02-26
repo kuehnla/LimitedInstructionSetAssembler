@@ -105,26 +105,56 @@ public abstract class AbstractInstruction implements Instruction {
   public String hexHelper(Object digit) {
     if (digit instanceof Integer) {
       Integer dig = (Integer) digit;
-      switch (dig) {
-        case 10 -> {return "a";}
-        case 11 -> {return "b";}
-        case 12 -> {return "c";}
-        case 13 -> {return "d";}
-        case 14 -> {return "e";}
-        case 15 -> {return "f";}
-        default -> {return String.valueOf(dig);}
-      }
+      return switch (dig) {
+        case 10 -> "a";
+        case 11 -> "b";
+        case 12 -> "c";
+        case 13 -> "d";
+        case 14 -> "e";
+        case 15 -> "f";
+        default -> String.valueOf(dig);
+      };
     }
 
     String hexDig = (String) digit;
-    switch (hexDig) {
-      case "a" -> {return "10";}
-      case "b" -> {return "11";}
-      case "c" -> {return "12";}
-      case "d" -> {return "13";}
-      case "e" -> {return "14";}
-      case "f" -> {return "15";}
-      default -> {return hexDig;}
+    return switch (hexDig) {
+      case "a" -> "10";
+      case "b" -> "11";
+      case "c" -> "12";
+      case "d" -> "13";
+      case "e" -> "14";
+      case "f" -> "15";
+      default -> hexDig;
+    };
+  }
+
+  /*
+   * Returns a string representing the decimal value of a register number.
+   */
+  @Override
+  public String registers(String reg) {
+    switch (reg) {
+      case "$zero" : return "0";
+      case "$at" : return "1";
+      case "$gp" : return "28";
+      case "$sp" : return "29";
+      case "$fp" : return "30";
+      case "$ra" : return "31";
+      case "$t8" : return "24";
+      case "$t9" : return "25";
+      default : break;
     }
+
+    char let = reg.charAt(1);
+    int num = (int) reg.charAt(2);
+    StringBuilder numString = new StringBuilder();
+    return switch (let) {
+      case 'v' -> numString.append(2 + num).toString();
+      case 'a' -> numString.append(4 + num).toString();
+      case 't' -> numString.append(8 + num).toString();
+      case 's' -> numString.append(16 + num).toString();
+      case 'k' -> numString.append(26 + num).toString();
+      default -> null;
+    };
   }
 }

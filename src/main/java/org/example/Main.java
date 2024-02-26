@@ -30,27 +30,6 @@ public class Main {
       //SYSCALL:
       case "syscall" -> new Syscall();
       default -> null;
-        /*
-         * R-TYPE:
-         * add 000000, 100000
-         * and 000000, 100100
-         * or 000000, 100101
-         * slt 000000, 101010
-         * sub 000000, 100010
-         * I-TYPE:
-         * addiu 001001
-         * andi 001100
-         * beq 000100
-         * bne 000101
-         * lui 001111
-         * lw 100011
-         * ori 001101
-         * sw 101011
-         * J-TYPE:
-         * j 000010
-         * SYSCALL:
-         * sycall 000000, 001100
-         */
     };
   }
 }
