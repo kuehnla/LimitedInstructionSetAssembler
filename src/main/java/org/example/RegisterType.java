@@ -6,6 +6,7 @@ package org.example;
  */
 public class RegisterType extends AbstractInstruction {
   private final static String ZEROS = "00000";
+  String rd, rs, rt, funct;
   public RegisterType(String funct) {
     this.funct = funct;
     op = "000000";

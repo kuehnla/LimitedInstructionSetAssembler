@@ -6,23 +6,12 @@ package org.example;
  * numerical conversions, register number lookups and argument parsing.
  */
 public abstract class AbstractInstruction implements Instruction {
-  String word, op, rs, rt, rd, shamt, funct, immediate;
+  String word, op;
 
   @Override
   public String getWord() {
     return word;
   }
-  @Override
-  public void setRS(String[] argz) {return;}
-
-  @Override
-  public void setRT(String[] argz) {return;}
-
-  @Override
-  public void setRD(String[] argz) {return;}
-
-  @Override
-  public void setShamt(String[] argz) {return;}
 
   /*
    * Takes information about the instruction and based on instruction-type

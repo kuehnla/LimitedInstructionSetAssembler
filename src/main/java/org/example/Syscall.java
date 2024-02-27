@@ -4,7 +4,7 @@ package org.example;
  * A class representing a syscall instruction.
  */
 public class Syscall extends AbstractInstruction {
-  public String code;
+  public String code, funct;
   public Syscall() {
     op = "000000";
     funct = "001100";

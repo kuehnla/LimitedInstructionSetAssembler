@@ -1,15 +1,23 @@
 package org.example;
 
-
-
-// args can be decimal or hexadecimal
+/*
+ * A class representing an I-TYPE instruction.
+ */
 public class ImmediateType extends AbstractInstruction {
+  String rt, rs, immediate, base, offset;
   public ImmediateType(String op) {
     this.op = op;
   }
 
   @Override
   public void toMachine(String[] argz) {
+    if (op.equals("101011") || op.equals("100011")) {
+      storeWordLoadWord(argz);
+      return;
+    } else if (op.equals("001111")) {
+      loadUpperImmediate(argz);
+    }
+    // normal I-TYPES
     rt = decToBin(registers(argFinder(argz, 1)),5);
     rs = decToBin(registers(argFinder(argz, 2)), 5);
     immediate = argFinder(argz, 3);
@@ -22,10 +30,24 @@ public class ImmediateType extends AbstractInstruction {
     word = decToHex(word);
   }
 
+  private void storeWordLoadWord(String[] argz) {
+
+  }
+
+  private void loadUpperImmediate(String[] argz) {
+
+  }
+
+  /*
+   * Determines the appropriate conversion method to call based on given number.
+   */
   private String decOrHex(String dig) {
     return (dig.contains("x")) ? hexToBin(dig.split("x")[1], 16) : decToBin(dig, 16);
   }
 
+  /*
+   * Converts a negative-signed binary digit to two's complement representation.
+   */
   private String twosComplement(String dig) {
     dig = decToBin(dig.split("-")[1], 16);
     StringBuilder sb = new StringBuilder();
