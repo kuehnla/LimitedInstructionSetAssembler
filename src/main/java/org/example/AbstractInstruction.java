@@ -1,7 +1,12 @@
 package org.example;
 
+/*
+ * An abstract class representing an instruction. Implements methods that would be useful
+ * for different types of instructions such as I-TYPE, R-TYPE, J-TYPE, and Syscall including
+ * numerical conversions, register number lookups and argument parsing.
+ */
 public abstract class AbstractInstruction implements Instruction {
-  String word, op, rs, rt, rd, shamt, funct;
+  String word, op, rs, rt, rd, shamt, funct, immediate;
 
   @Override
   public String getWord() {
@@ -31,7 +36,7 @@ public abstract class AbstractInstruction implements Instruction {
    * Converts a hexadecimal number to binary.
    */
   @Override
-  public String hexToBin(String hex) {
+  public String hexToBin(String hex, int bits) {
     hex = hex.replaceAll("0", "0000");
     hex = hex.replaceAll("1", "0001");
     hex = hex.replaceAll("2", "0010");
@@ -48,6 +53,9 @@ public abstract class AbstractInstruction implements Instruction {
     hex = hex.replaceAll("d", "1101");
     hex = hex.replaceAll("e", "1110");
     hex = hex.replaceAll("f", "1111");
+    StringBuilder sb = new StringBuilder(hex);
+    while (sb.length() < bits) sb.insert(0, 0);
+    hex = sb.toString();
     return hex;
   }
 
@@ -94,7 +102,7 @@ public abstract class AbstractInstruction implements Instruction {
       val /= 2;
     } while (val > 0);
 
-    while (sb.length() < 5) sb.insert(0, 0);
+    while (sb.length() < bits) sb.insert(0, 0);
 
     return sb.toString();
   }

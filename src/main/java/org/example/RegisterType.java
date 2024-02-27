@@ -1,5 +1,9 @@
 package org.example;
 
+
+/*
+ * A class representing a R-TYPE instruction.
+ */
 public class RegisterType extends AbstractInstruction {
   private final static String ZEROS = "00000";
   public RegisterType(String funct) {

@@ -37,6 +37,6 @@ public class JumpType extends AbstractInstruction {
       instrIndex = s;
       break;
     }
-    instrIndex = hexToBin(instrIndex.split("x")[1].split("#")[0]);
+    instrIndex = hexToBin(instrIndex.split("x")[1].split("#")[0], 26);
   }
 }
