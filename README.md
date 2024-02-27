@@ -29,3 +29,5 @@ $> java -jar LimitedAssembler.jar "syscall"
 
 $> java -jar LimitedAssembler.jar "J 0x00000c5"
 0x080000c5
+
+**Done with as few library converters as possible for the purpose of understanding
