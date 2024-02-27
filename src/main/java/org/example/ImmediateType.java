@@ -11,11 +11,13 @@ public class ImmediateType extends AbstractInstruction {
 
   @Override
   public void toMachine(String[] argz) {
+    // lw, sw, or lui
     if (op.equals("101011") || op.equals("100011")) {
       storeWordLoadWord(argz);
       return;
     } else if (op.equals("001111")) {
       loadUpperImmediate(argz);
+      return;
     }
     // normal I-TYPES
     rt = decToBin(registers(argFinder(argz, 1)),5);
@@ -26,8 +28,7 @@ public class ImmediateType extends AbstractInstruction {
     sb.append(rs);
     sb.append(rt);
     sb.append(immediate);
-    word = binToDec(sb.toString());
-    word = decToHex(word);
+    word = decToHex(binToDec(sb.toString()));
   }
 
   private void storeWordLoadWord(String[] argz) {
@@ -35,7 +36,14 @@ public class ImmediateType extends AbstractInstruction {
   }
 
   private void loadUpperImmediate(String[] argz) {
-
+    rt = decToBin(registers(argFinder(argz, 1)), 5);
+    immediate = argFinder(argz, 2);
+    immediate = (immediate.charAt(0) == '-') ? twosComplement(immediate) : decOrHex(immediate);
+    StringBuilder sb = new StringBuilder(op);
+    sb.append("00000");
+    sb.append(rt);
+    sb.append(immediate);
+    word = decToHex(binToDec(sb.toString()));
   }
 
   /*
