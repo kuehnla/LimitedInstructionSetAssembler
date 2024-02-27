@@ -324,64 +324,64 @@ public class TestLimitedAssembler {
 
   @Test
   public void test45() {
-    Main.main(new String[]{"beq $t9, $t7, 0xff50#Comment"});
-    assertEquals("11f9ff50\n", outContent.toString());
+    Main.main(new String[]{"beq $s2, $a2, 187#Comment"});
+    assertEquals("124600bb\n", outContent.toString());
   }
 
   @Test
   public void test46() {
-    Main.main(new String[]{"beq $t6, $at, -116"});
-    assertEquals("102eff8c\n", outContent.toString());
+    Main.main(new String[]{"beq $at, $a2, -113"});
+    assertEquals("1026ff8f\n", outContent.toString());
   }
 
   @Test
   public void test47() {
-    Main.main(new String[]{"      beq $a3, $a3, 0xd8"});
-    assertEquals("10e700d8\n", outContent.toString());
+    Main.main(new String[]{"      beq $v1, $t7, 253"});
+    assertEquals("106f00fd\n", outContent.toString());
   }
 
   @Test
   public void test48() {
-    Main.main(new String[]{"beq $s5, $s0, 50# Comment"});
-    assertEquals("12150032\n", outContent.toString());
+    Main.main(new String[]{"beq $t6, $t1, 0x26# Comment"});
+    assertEquals("11c90026\n", outContent.toString());
   }
 
   @Test
   public void test49() {
-    Main.main(new String[]{"  beq $s0, $s6,   0xff4c  "});
-    assertEquals("12d0ff4c\n", outContent.toString());
+    Main.main(new String[]{"  beq $t7, $s0, 0x90  "});
+    assertEquals("11f00090\n", outContent.toString());
   }
 
   // tests of bne
 
   @Test
   public void test50() {
-    Main.main(new String[]{"  bne $s1, $t3, -61  "});
-    assertEquals("1571ffc3\n", outContent.toString());
+    Main.main(new String[]{"  bne $s0, $s0, 0x28  "});
+    assertEquals("16100028\n", outContent.toString());
   }
 
   @Test
   public void test51() {
-    Main.main(new String[]{"bne $t6, $sp, 0xff64  "});
-    assertEquals("17aeff64\n", outContent.toString());
+    Main.main(new String[]{"bne $s2, $t3, 0xa0# Comment  "});
+    assertEquals("164b00a0\n", outContent.toString());
   }
 
   @Test
   public void test52() {
-    Main.main(new String[]{"  bne $t7, $t1, 0x22#Comment  "});
-    assertEquals("152f0022\n", outContent.toString());
+    Main.main(new String[]{"  bne $at, $t4, 0xffb9  "});
+    assertEquals("142cffb9\n", outContent.toString());
   }
 
   @Test
   public void test53() {
-    Main.main(new String[]{" bne $t3, $a1, 0xff02  "});
-    assertEquals("14abff02\n", outContent.toString());
+    Main.main(new String[]{" bne $t3, $s7, 0x60  "});
+    assertEquals("15770060\n", outContent.toString());
   }
 
   @Test
   public void test54() {
-    Main.main(new String[]{" bne $t1,     $s4, 0xff4d "});
-    assertEquals("1689ff4d\n", outContent.toString());
+    Main.main(new String[]{" bne $a0, $s2, 0xff67 "});
+    assertEquals("1492ff67\n", outContent.toString());
   }
 
   // tests of lui

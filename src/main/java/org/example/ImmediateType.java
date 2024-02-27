@@ -20,10 +20,25 @@ public class ImmediateType extends AbstractInstruction {
     } else if (op.equals("001111")) {
       loadUpperImmediate(argz);
       return;
+    } else if (op.equals("000100") || op.equals("000101")) {
+      branch(argz);
+      return;
     }
     // normal I-TYPES
     rt = decToBin(registers(argFinder(argz, 1)),5);
     rs = decToBin(registers(argFinder(argz, 2)), 5);
+    immediate = argFinder(argz, 3);
+    immediate = (immediate.charAt(0) == '-') ? twosComplement(immediate) : decOrHex(immediate);
+    StringBuilder sb = new StringBuilder(op);
+    sb.append(rs);
+    sb.append(rt);
+    sb.append(immediate);
+    word = decToHex(binToDec(sb.toString()));
+  }
+
+  private void branch(String[] argz) {
+    rs = decToBin(registers(argFinder(argz, 1)),5);
+    rt = decToBin(registers(argFinder(argz, 2)), 5);
     immediate = argFinder(argz, 3);
     immediate = (immediate.charAt(0) == '-') ? twosComplement(immediate) : decOrHex(immediate);
     StringBuilder sb = new StringBuilder(op);
