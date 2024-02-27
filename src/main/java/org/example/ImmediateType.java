@@ -1,5 +1,7 @@
 package org.example;
 
+import java.math.BigInteger;
+
 /*
  * A class representing an I-TYPE instruction.
  */
@@ -32,7 +34,19 @@ public class ImmediateType extends AbstractInstruction {
   }
 
   private void storeWordLoadWord(String[] argz) {
-
+    rt = decToBin(registers(argFinder(argz, 1)), 5);
+    base = decToBin(registers(argFinder(argz, 2).split("\\(")[1].split("\\)")[0]), 5);
+    offset = argFinder(argz, 2).split("\\(")[0];
+    if (offset.isEmpty()) offset = "0000000000000000";
+    else offset = (offset.charAt(0) == '-') ? twosComplement(offset) : decOrHex(offset);
+//    offset = (offset.charAt(0) == '-') ? twosComplement(offset) : decOrHex(offset);
+//    offset = String.valueOf(Integer.parseInt(argFinder(argz, 2).split("\n")[0]) * 4);
+//    offset = (offset.charAt(0) == '-') ? twosComplement(offset) : decOrHex(offset);
+    StringBuilder sb = new StringBuilder(op);
+    sb.append(base);
+    sb.append(rt);
+    sb.append(offset);
+    word = new BigInteger(sb.toString(), 2).toString(16);
   }
 
   private void loadUpperImmediate(String[] argz) {

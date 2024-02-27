@@ -2,7 +2,7 @@ package org.example;
 
 
 /*
- * A class representing a R-TYPE instruction.
+ * A class representing an R-TYPE instruction.
  */
 public class RegisterType extends AbstractInstruction {
   private final static String ZEROS = "00000";
