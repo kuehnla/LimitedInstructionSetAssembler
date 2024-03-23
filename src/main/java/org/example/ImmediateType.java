@@ -14,15 +14,19 @@ public class ImmediateType extends AbstractInstruction {
   @Override
   public void toMachine(String[] argz) {
     // lw, sw, or lui
-    if (op.equals("101011") || op.equals("100011")) {
-      storeWordLoadWord(argz);
-      return;
-    } else if (op.equals("001111")) {
-      loadUpperImmediate(argz);
-      return;
-    } else if (op.equals("000100") || op.equals("000101")) {
-      branch(argz);
-      return;
+    switch (op) {
+      case "101011", "100011" -> {
+        storeWordLoadWord(argz);
+        return;
+      }
+      case "001111" -> {
+        loadUpperImmediate(argz);
+        return;
+      }
+      case "000100", "000101" -> {
+        branch(argz);
+        return;
+      }
     }
     // normal I-TYPES
     rt = decToBin(registers(argFinder(argz, 1)),5);
@@ -48,15 +52,15 @@ public class ImmediateType extends AbstractInstruction {
     word = decToHex(binToDec(sb.toString()));
   }
 
+  /*
+   * Special method that handles toMachines responsibilities for lw and sw.
+   */
   private void storeWordLoadWord(String[] argz) {
     rt = decToBin(registers(argFinder(argz, 1)), 5);
     base = decToBin(registers(argFinder(argz, 2).split("\\(")[1].split("\\)")[0]), 5);
     offset = argFinder(argz, 2).split("\\(")[0];
     if (offset.isEmpty()) offset = "0000000000000000";
     else offset = (offset.charAt(0) == '-') ? twosComplement(offset) : decOrHex(offset);
-//    offset = (offset.charAt(0) == '-') ? twosComplement(offset) : decOrHex(offset);
-//    offset = String.valueOf(Integer.parseInt(argFinder(argz, 2).split("\n")[0]) * 4);
-//    offset = (offset.charAt(0) == '-') ? twosComplement(offset) : decOrHex(offset);
     StringBuilder sb = new StringBuilder(op);
     sb.append(base);
     sb.append(rt);
@@ -64,6 +68,9 @@ public class ImmediateType extends AbstractInstruction {
     word = new BigInteger(sb.toString(), 2).toString(16);
   }
 
+  /*
+   * Special method that handles toMachines responsibilities for lui.
+   */
   private void loadUpperImmediate(String[] argz) {
     rt = decToBin(registers(argFinder(argz, 1)), 5);
     immediate = argFinder(argz, 2);
