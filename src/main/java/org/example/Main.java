@@ -1,6 +1,8 @@
 package org.example;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.*;
 
 public class Main {
@@ -33,31 +35,45 @@ public class Main {
 
   private static void assemblyFile(String path) throws IOException {
     BufferedReader br = new BufferedReader(new FileReader(path));
+    Map<String, String> dataAddrs = null;
     while (br.ready()) {
       if (br.readLine().equals(".data"))
-        data(br, path);
+        dataAddrs = data(br, path);
     }
+
   }
 
-  private static void data(BufferedReader br, String path) throws IOException {
+  private static Map<String, String> data(BufferedReader br, String path) throws IOException {
 
     // TODO: needs to store addresses of data
+
+    // TODO: .data types need work
 
     String outName = fileName(path) + ".data";
     path = basePath(path) + outName;
     BufferedWriter bw = new BufferedWriter(new FileWriter(path));
     StringBuilder sb = new StringBuilder();
+    Map<String, String> dataAddrs = new HashMap<>();
     int j = 0;
+    String addr = "10010000";
+
     while (br.ready()) {
       br.mark(1);
       String line = br.readLine();
 
-      if (line.equals(".text") || line.equals(".data")) {
+      if (line.isEmpty()) {
+        continue;
+      } else if (!line.contains(".asciiz") && !line.contains(".word")) {
         br.reset();
         break;
       }
 
-      if (line.isEmpty()) continue;
+      dataAddrs.put(line.substring(0, line.indexOf(':')).split("\\t")[1], addr);
+
+      if (line.contains(".word")) {
+        addr = wordType(addr, line, bw);
+        continue;
+      }
 
       Pattern p = Pattern.compile("\"([^\"]*)\"");
       Matcher m = p.matcher(line);
@@ -65,16 +81,14 @@ public class Main {
         line = m.group(1);
       }
 
-      System.out.println(line);
+      addr = Integer.toHexString(Integer.parseInt(addr, 16) + line.length() + 1);
 
-      // Integer.toHexString(Integer.parseInt(dec)
       for (int i = 0; i < line.length(); ++i, ++j) {
         if (j > 3) {
           j = 0;
           bw.write(sb.toString());
           bw.newLine();
           bw.flush();
-          System.out.println("WRITING: " + sb.toString());
           sb.delete(0, sb.length());
         }
 
@@ -86,7 +100,6 @@ public class Main {
         bw.write(sb.toString());
         bw.newLine();
         bw.flush();
-        System.out.println("WRITING: " + sb.toString());
         sb.delete(0, sb.length());
         sb.insert(0, "00");
       } else {
@@ -105,6 +118,23 @@ public class Main {
     }
     bw.close();
 
+    return dataAddrs;
+  }
+
+  private static String wordType(String addr, String line, BufferedWriter bw) throws IOException {
+    Pattern p = Pattern.compile("\"([^\"]*)\"");
+    Matcher m = p.matcher(line);
+    while (m.find()) {
+      line = m.group(1);
+    }
+
+    if (line.contains("x"))
+      bw.write(line.split("x")[1]);
+    else {
+      // TODO: binary to hex
+    }
+
+    return addr;
   }
 
   private static String basePath(String path) {

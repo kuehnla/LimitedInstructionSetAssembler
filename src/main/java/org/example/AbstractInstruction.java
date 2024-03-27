@@ -45,7 +45,7 @@ public abstract class AbstractInstruction implements Instruction {
    */
   @Override
   public String binToDec(String bin) {
-    return String.valueOf(Integer.parseInt(bin, 2));
+    return Conversions.binToDec(bin);
   }
 
   /*
@@ -53,11 +53,7 @@ public abstract class AbstractInstruction implements Instruction {
    */
   @Override
   public String decToHex(String dec) {
-    StringBuilder sb = new StringBuilder(Integer.toHexString(Integer.parseInt(dec)));
-    while (sb.length() < 8) {
-      sb.insert(0, 0);
-    }
-    return sb.toString();
+    return Conversions.decToHex(dec);
   }
 
   /*
@@ -65,11 +61,7 @@ public abstract class AbstractInstruction implements Instruction {
    */
   @Override
   public String decToBin(String dec, int bits) {
-    StringBuilder sb = new StringBuilder(Integer.toBinaryString(Integer.parseInt(dec)));
-    while (sb.length() < bits) {
-      sb.insert(0, 0);
-    }
-    return sb.toString();
+    return Conversions.decToBin(dec, bits);
   }
 
   /*
