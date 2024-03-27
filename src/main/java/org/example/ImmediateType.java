@@ -40,7 +40,7 @@ public class ImmediateType extends AbstractInstruction {
     sb.append(rs);
     sb.append(rt);
     sb.append(immediate);
-    word = decToHex(binToDec(sb.toString()));
+    word = binToHex(sb.toString());
   }
 
   private void branch(String[] argz) {
@@ -52,7 +52,7 @@ public class ImmediateType extends AbstractInstruction {
     sb.append(rs);
     sb.append(rt);
     sb.append(immediate);
-    word = decToHex(binToDec(sb.toString()));
+    word = binToHex(sb.toString());
   }
 
   /*
@@ -82,7 +82,7 @@ public class ImmediateType extends AbstractInstruction {
     sb.append("00000");
     sb.append(rt);
     sb.append(immediate);
-    word = decToHex(binToDec(sb.toString()));
+    word = binToHex(sb.toString());
   }
 
   /*

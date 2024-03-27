@@ -18,42 +18,15 @@ public abstract class AbstractInstruction implements Instruction {
    */
   @Override
   public String hexToBin(String hex, int bits) {
-    hex = hex.replaceAll("0", "0000");
-    hex = hex.replaceAll("1", "0001");
-    hex = hex.replaceAll("2", "0010");
-    hex = hex.replaceAll("3", "0011");
-    hex = hex.replaceAll("4", "0100");
-    hex = hex.replaceAll("5", "0101");
-    hex = hex.replaceAll("6", "0110");
-    hex = hex.replaceAll("7", "0111");
-    hex = hex.replaceAll("8", "1000");
-    hex = hex.replaceAll("9", "1001");
-    hex = hex.replaceAll("a", "1010");
-    hex = hex.replaceAll("b", "1011");
-    hex = hex.replaceAll("c", "1100");
-    hex = hex.replaceAll("d", "1101");
-    hex = hex.replaceAll("e", "1110");
-    hex = hex.replaceAll("f", "1111");
-    StringBuilder sb = new StringBuilder(hex);
-    while (sb.length() < bits) sb.insert(0, 0);
-    hex = sb.toString();
-    return hex;
+    return Conversions.hexToBin(hex, bits);
   }
 
   /*
-   * Converts a binary number to decimal.
+   * Converts a binary number to hexadecimal.
    */
   @Override
-  public String binToDec(String bin) {
-    return Conversions.binToDec(bin);
-  }
-
-  /*
-   * Converts a decimal integer to hexadecimal.
-   */
-  @Override
-  public String decToHex(String dec) {
-    return Conversions.decToHex(dec);
+  public String binToHex(String bin) {
+    return Conversions.binToHex(bin);
   }
 
   /*

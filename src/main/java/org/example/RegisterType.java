@@ -28,7 +28,6 @@ public class RegisterType extends AbstractInstruction {
     sb.append(ZEROS);
     sb.append(funct);
 
-    word = binToDec(sb.toString());
-    word = decToHex(word);
+    word = binToHex(sb.toString());
   }
 }

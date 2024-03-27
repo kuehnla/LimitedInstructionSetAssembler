@@ -11,7 +11,5 @@ public class Syscall extends AbstractInstruction {
    * Converts syscall instruction into hexadecimal machine code.
    */
   @Override
-  public void toMachine(String[] argz) {
-    word = decToHex(binToDec(word = "00000000000000000000000000001100"));
-  }
+  public void toMachine(String[] argz) { word = binToHex(word = "00000000000000000000000000001100"); }
 }

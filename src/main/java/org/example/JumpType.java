@@ -24,8 +24,7 @@ public class JumpType extends AbstractInstruction {
     while (sbInd.length() > 26) sbInd.deleteCharAt(0);    // remove extra leading 0's
 
     sb.append(sbInd);                                           // form the instruction's machine code in binary
-    word = binToDec(sb.toString());                             // converts binary -> decimal -> hexadecimal
-    word = decToHex(word);
+    word = binToHex(sb.toString());                             // converts binary -> decimal -> hexadecimal
   }
 
   /*

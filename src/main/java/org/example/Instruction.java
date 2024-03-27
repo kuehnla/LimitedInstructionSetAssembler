@@ -5,11 +5,10 @@ package org.example;
  */
 public interface Instruction {
   String getWord();
-  String binToDec(String bin);
-  String decToHex(String dec);
   String decToBin(String dec, int bits);
   void toMachine(String[] argz);
   String hexToBin(String hex, int bits);
+  String binToHex(String bin);
 
   String registers(String reg);
   String argFinder(String[] argz, int index);

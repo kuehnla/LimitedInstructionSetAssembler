@@ -37,11 +37,33 @@ public class Main {
     BufferedReader br = new BufferedReader(new FileReader(path));
     Map<String, String> dataAddrs = null;
     while (br.ready()) {
-      if (br.readLine().equals(".data"))
+      String line = br.readLine();
+      if (line.equals(".data"))
         dataAddrs = data(br, path);
-    }
-    System.out.println(dataAddrs.entrySet());
 
+      if (line.equals(".text")) {
+        text(br, path, dataAddrs);
+      }
+    }
+  }
+
+  private static void text(BufferedReader br, String path, Map<String, String> dataAddrs) throws IOException {
+    String outName = fileName(path) + ".text";
+    path = basePath(path) + outName;
+    BufferedWriter bw = new BufferedWriter(new FileWriter(path));
+    StringBuilder sb = new StringBuilder();
+    Map<String, String> labelAddrs = new HashMap<>();
+    String addr = "00400000";
+
+    while (br.ready()) {
+      br.mark(1);
+      String line = br.readLine();
+
+      if (line.isEmpty() || line.contains("#"))
+        continue;
+
+
+    }
   }
 
   private static Map<String, String> data(BufferedReader br, String path) throws IOException {
@@ -187,8 +209,9 @@ public class Main {
       case "j" -> new JumpType();
       // SYSCALL:
       case "syscall" -> new Syscall();
+      // PSEUDO-INSTRUCTIONS:
+      case "li", "la", "blt" -> new PseudoInstruction(op);
       default -> null;
-      // TODO : li la blt
     };
   }
 }
