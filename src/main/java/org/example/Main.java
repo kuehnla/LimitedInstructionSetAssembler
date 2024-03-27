@@ -1,6 +1,7 @@
 package org.example;
 
 import java.io.*;
+import java.util.regex.*;
 
 public class Main {
   public static void main(String[] args) {
@@ -42,7 +43,31 @@ public class Main {
     String outName = fileName(path) + ".data";
     path = basePath(path) + outName;
     BufferedWriter bw = new BufferedWriter(new FileWriter(path));
-    
+    StringBuilder sb = new StringBuilder();
+    while (br.ready()) {
+      br.mark(1);
+      if (br.readLine().equals(".text")) {
+        br.reset();
+        return;
+      }
+      br.reset();
+      br.mark(1);
+      if (br.readLine().equals(".data")) {
+        br.reset();
+        return;
+      }
+      br.reset();
+
+      String line = br.readLine();
+      Pattern p = Pattern.compile("\"([^\"]*)\"");
+      Matcher m = p.matcher(line);
+      while (m.find()) {
+        line = m.group(1);
+      }
+
+
+
+    }
   }
 
   private static String basePath(String path) {

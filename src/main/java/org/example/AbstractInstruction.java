@@ -65,18 +65,11 @@ public abstract class AbstractInstruction implements Instruction {
    */
   @Override
   public String decToHex(String dec) {
-    int decimal = Integer.parseInt(dec);
-    StringBuilder hex = new StringBuilder();
-    do {
-      hex.append(hexHelper(decimal % 16));
-      decimal /= 16;
-    } while (decimal > 0);
-
-    while (hex.toString().length() < 8) {
-      hex.append(0);
+    StringBuilder sb = new StringBuilder(Integer.toHexString(Integer.parseInt(dec)));
+    while (sb.length() < 8) {
+      sb.insert(0, 0);
     }
-
-    return hex.reverse().toString();
+    return sb.toString();
   }
 
   /*
