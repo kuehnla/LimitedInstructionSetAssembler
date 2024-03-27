@@ -32,7 +32,44 @@ public class Main {
 
   private static void assemblyFile(String path) throws IOException {
     BufferedReader br = new BufferedReader(new FileReader(path));
-    System.out.println(br.readLine());
+    while (br.ready()) {
+      if (br.readLine().equals(".data"))
+        data(br, path);
+    }
+  }
+
+  private static void data(BufferedReader br, String path) throws IOException {
+    String outName = fileName(path) + ".data";
+    path = basePath(path) + outName;
+    BufferedWriter bw = new BufferedWriter(new FileWriter(path));
+    
+  }
+
+  private static String basePath(String path) {
+    int lastSlashIndex = path.lastIndexOf('/');
+    if (lastSlashIndex != path.length() - 1) {
+      return path.substring(0, lastSlashIndex + 1);
+    }
+
+    for (int i = lastSlashIndex - 1; i > 0; --i) {
+      if (path.charAt(i) == '/')
+        return path.substring(0, i + 1);
+    }
+
+    return null;
+  }
+
+  private static String fileName(String path) {
+    int lastSlashIndex = path.lastIndexOf('/');
+    if (lastSlashIndex == path.length() - 1) {
+      int i = lastSlashIndex - 1;
+      for (; i > 0; --i) {
+        if (path.charAt(i) == '/') break;
+      }
+      return path.substring(i + 1, lastSlashIndex).split("\\.")[0];
+    }
+
+    return path.substring(lastSlashIndex + 1).split("\\.")[0];
   }
 
   private static AbstractInstruction initOp(String op) {
