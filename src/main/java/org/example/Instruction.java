@@ -8,7 +8,6 @@ public interface Instruction {
   String binToDec(String bin);
   String decToHex(String dec);
   String decToBin(String dec, int bits);
-  String hexHelper(Object hexDig);
   void toMachine(String[] argz);
   String hexToBin(String hex, int bits);
 

@@ -11,6 +11,9 @@ public class ImmediateType extends AbstractInstruction {
     this.op = op;
   }
 
+  /*
+   * Converts I-TYPE instruction into correct hexadecimal machine code.
+   */
   @Override
   public void toMachine(String[] argz) {
     // lw, sw, or lui

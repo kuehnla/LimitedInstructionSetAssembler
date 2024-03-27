@@ -14,14 +14,6 @@ public abstract class AbstractInstruction implements Instruction {
   }
 
   /*
-   * Takes information about the instruction and based on instruction-type
-   * (R-TYPE, I-TYPE, J-TYPE, syscall), produces the correct hexadecimal
-   * machine code.
-   */
-  @Override
-  public void toMachine(String[] argz) {}
-
-  /*
    * Converts a hexadecimal number to binary.
    */
   @Override
@@ -53,11 +45,7 @@ public abstract class AbstractInstruction implements Instruction {
    */
   @Override
   public String binToDec(String bin) {
-    int dec = 0;
-    for (int i = bin.length() - 1, j = 0; i >= 0; --i, ++j) {
-      dec += (int) ((bin.charAt(i)-'0') * Math.pow(2, j));
-    }
-    return String.valueOf(dec);
+    return String.valueOf(Integer.parseInt(bin, 2));
   }
 
   /*
@@ -82,36 +70,6 @@ public abstract class AbstractInstruction implements Instruction {
       sb.insert(0, 0);
     }
     return sb.toString();
-  }
-
-  /*
-   * Converts an integer from decimal to hexadecimal or vice versa.
-   */
-  @Override
-  public String hexHelper(Object digit) {
-    if (digit instanceof Integer) {
-      Integer dig = (Integer) digit;
-      return switch (dig) {
-        case 10 -> "a";
-        case 11 -> "b";
-        case 12 -> "c";
-        case 13 -> "d";
-        case 14 -> "e";
-        case 15 -> "f";
-        default -> String.valueOf(dig);
-      };
-    }
-
-    String hexDig = (String) digit;
-    return switch (hexDig) {
-      case "a" -> "10";
-      case "b" -> "11";
-      case "c" -> "12";
-      case "d" -> "13";
-      case "e" -> "14";
-      case "f" -> "15";
-      default -> hexDig;
-    };
   }
 
   /*
