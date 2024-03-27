@@ -77,15 +77,10 @@ public abstract class AbstractInstruction implements Instruction {
    */
   @Override
   public String decToBin(String dec, int bits) {
-    StringBuilder sb = new StringBuilder();
-    int val = Integer.parseInt(dec);
-    do {
-      sb.insert(0, (val % 2 == 0 ? 0 : 1));
-      val /= 2;
-    } while (val > 0);
-
-    while (sb.length() < bits) sb.insert(0, 0);
-
+    StringBuilder sb = new StringBuilder(Integer.toBinaryString(Integer.parseInt(dec)));
+    while (sb.length() < bits) {
+      sb.insert(0, 0);
+    }
     return sb.toString();
   }
 
