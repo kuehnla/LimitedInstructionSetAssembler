@@ -40,15 +40,11 @@ public class Main {
       if (br.readLine().equals(".data"))
         dataAddrs = data(br, path);
     }
+    System.out.println(dataAddrs.entrySet());
 
   }
 
   private static Map<String, String> data(BufferedReader br, String path) throws IOException {
-
-    // TODO: needs to store addresses of data
-
-    // TODO: .data types need work
-
     String outName = fileName(path) + ".data";
     path = basePath(path) + outName;
     BufferedWriter bw = new BufferedWriter(new FileWriter(path));
@@ -71,6 +67,15 @@ public class Main {
       dataAddrs.put(line.substring(0, line.indexOf(':')).split("\\t")[1], addr);
 
       if (line.contains(".word")) {
+        if (!sb.isEmpty()) {
+          while (sb.length() < 8)
+            sb.insert(0, 0);
+
+          bw.write(sb.toString());
+          bw.newLine();
+          bw.flush();
+          sb.delete(0, sb.length());
+        }
         addr = wordType(addr, line, bw);
         continue;
       }
@@ -116,23 +121,20 @@ public class Main {
       bw.newLine();
       bw.flush();
     }
+
     bw.close();
 
     return dataAddrs;
   }
 
   private static String wordType(String addr, String line, BufferedWriter bw) throws IOException {
-    Pattern p = Pattern.compile("\"([^\"]*)\"");
-    Matcher m = p.matcher(line);
-    while (m.find()) {
-      line = m.group(1);
-    }
+    if (line.contains("0x"))
+      bw.write(line.split("0x")[1]);
+    else
+      bw.write(Conversions.decToHex(line.replaceAll("[^0-9]", "")));
+    bw.flush();
 
-    if (line.contains("x"))
-      bw.write(line.split("x")[1]);
-    else {
-      // TODO: binary to hex
-    }
+    addr = Integer.toHexString(Integer.parseInt(addr, 16) + 4);
 
     return addr;
   }
