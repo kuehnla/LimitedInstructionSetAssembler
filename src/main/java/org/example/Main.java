@@ -72,11 +72,10 @@ public class Main {
 
       PseudoInstruction psIn = null;
       if (line.contains("li") || line.contains("la") || line.contains("blt")) {
-        psIn = initPseudo(line, addr);
+        psIn = initPseudo(line, addr, br);
         if (psIn.type.equals("li")) {
           psIn.toMachine(null);
           bw.write(psIn.instructions[0]);
-          System.out.println(psIn.instructions[0]);
           bw.newLine();
           bw.flush();
           addr = Integer.toHexString((Integer.parseInt(addr, 16) + 4));
@@ -85,12 +84,18 @@ public class Main {
           psIn.toMachine(label);
           for (int i = 0; i < psIn.instructions.length; ++i) {
             bw.write(psIn.instructions[i]);
-            System.out.println(psIn.instructions[i]);
             bw.newLine();
             bw.flush();
             addr = Integer.toHexString((Integer.parseInt(addr, 16) + 4));
           }
         } else if (psIn.type.equals("blt")) {
+          psIn.toMachine(null);
+          for (int i = 0; i < psIn.instructions.length; ++i) {
+            bw.write(psIn.instructions[i]);
+            bw.newLine();
+            bw.flush();
+            addr = Integer.toHexString((Integer.parseInt(addr, 16) + 4));
+          }
         }
       } else {
         line = line.replaceAll("\\t", "");
@@ -105,10 +110,14 @@ public class Main {
         }
 
         in.toMachine(argz);
-        System.out.println(in.getWord());
+        bw.write(in.getWord());
+        bw.newLine();
+        bw.flush();
         addr = Integer.toHexString((Integer.parseInt(addr, 16) + 4));
       }
     }
+
+    bw.close();
   }
 
   private static String[] beq(String[] instr, BufferedReader br) throws IOException {
@@ -119,7 +128,7 @@ public class Main {
       String line = br.readLine();
       line = line.trim();
 
-      if (line.isEmpty() || line.contains("#")) continue;
+      if (line.isEmpty() || line.contains("#")|| (line.contains(":") && !line.contains(instr[3]))) continue;
       if (line.contains(instr[3])) {
         break;
       }
@@ -128,7 +137,7 @@ public class Main {
       if (line.contains("la") || line.contains("blt")) ++offset;
     }
 
-    StringBuilder sb = new StringBuilder(String.valueOf(offset));
+    StringBuilder sb = new StringBuilder(Integer.toHexString(offset)); // KEEP EYE ON THIS LINE
     sb.insert(0, "0x");
 
     instr[3] = sb.toString();
@@ -161,7 +170,7 @@ public class Main {
     return instr;
   }
 
-  private static PseudoInstruction initPseudo(String line, String addr) {
+  private static PseudoInstruction initPseudo(String line, String addr, BufferedReader br) {
     int i = 0;
     for (; i < line.length(); ++i)
       if (line.charAt(i) != 9 || line.charAt(i) != 32) {
@@ -171,7 +180,7 @@ public class Main {
 
     String[] instr = line.split(" ");
 
-    return new PseudoInstruction(instr, addr);
+    return new PseudoInstruction(instr, addr, br);
   }
 
   private static Map<String, String> data(BufferedReader br, String path) throws IOException {

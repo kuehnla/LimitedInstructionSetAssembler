@@ -1,15 +1,20 @@
 package org.example;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+
 public class PseudoInstruction extends AbstractInstruction {
   String[] instructions = new String[2];
   String addr;
   String[] in;
   String type;
+  BufferedReader br;
 
-  public PseudoInstruction(String[] in, String addr) {
+  public PseudoInstruction(String[] in, String addr, BufferedReader br) {
     this.addr = addr;
     this.in = in;
     type = in[0];
+    this.br = br;
   }
 
   /*
@@ -21,7 +26,13 @@ public class PseudoInstruction extends AbstractInstruction {
     switch(type) {
       case ("li") : loadImmediate(); break;
       case ("la") : loadAddress(argz[0]); break;
-      case ("blt") : branchLessThan(); break;
+      case ("blt") :
+        try {
+          branchLessThan();
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+        break;
       default :
     }
   }
@@ -38,8 +49,42 @@ public class PseudoInstruction extends AbstractInstruction {
     instructions[0] = binToHex(sb.toString());
   }
 
-  public String branchLessThan() {
-    return null;
+  public void branchLessThan() throws IOException {
+    // SLT
+    StringBuilder sbSlt = new StringBuilder("000000");
+    String funct = "00000101010";
+    String rs = decToBin(registers(in[1].replaceAll(",", "")), 5);
+    String rt = decToBin(registers(in[2].replaceAll(",", "")), 5);
+    String rd = "00001";
+    sbSlt.append(rs);
+    sbSlt.append(rt);
+    sbSlt.append(rd);
+    sbSlt.append(funct);
+    instructions[0] = binToHex(sbSlt.toString());
+
+    // BNE
+    StringBuilder sbBne = new StringBuilder("000101");
+    sbBne.append(rd);
+    sbBne.append(decToBin(registers("$zero"), 5));
+    int offset = 0;
+    String label = in[3];
+    br.mark(1000);
+    while (br.ready()) {
+      String line = br.readLine();
+      line = line.trim();
+
+      if (line.isEmpty() || line.contains("#")|| (line.contains(":") && !line.contains(label))) continue;
+      if (line.contains(label)) {
+        break;
+      }
+      ++offset;
+
+      if (line.contains("la") || line.contains("blt")) ++offset;
+    }
+
+    br.reset();
+    sbBne.append(decToBin(String.valueOf(offset), 16));
+    instructions[1] = binToHex(sbBne.toString());
   }
 
   public void loadAddress(String labelAddr) {
