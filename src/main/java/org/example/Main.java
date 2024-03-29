@@ -69,28 +69,28 @@ public class Main {
         continue;
       }
 
+
       PseudoInstruction psIn = null;
       if (line.contains("li") || line.contains("la") || line.contains("blt")) {
         psIn = initPseudo(line, addr);
         if (psIn.type.equals("li")) {
           psIn.toMachine(null);
           bw.write(psIn.instructions[0]);
+          System.out.println(psIn.instructions[0]);
           bw.newLine();
           bw.flush();
           addr = Integer.toHexString((Integer.parseInt(addr, 16) + 4));
-          continue;
         } else if (psIn.type.equals("la")) {
           String[] label = {dataAddrs.get(psIn.in[2])};
           psIn.toMachine(label);
           for (int i = 0; i < psIn.instructions.length; ++i) {
             bw.write(psIn.instructions[i]);
+            System.out.println(psIn.instructions[i]);
             bw.newLine();
             bw.flush();
             addr = Integer.toHexString((Integer.parseInt(addr, 16) + 4));
           }
-          continue;
         } else if (psIn.type.equals("blt")) {
-          continue;
         }
       } else {
         line = line.replaceAll("\\t", "");
@@ -100,16 +100,13 @@ public class Main {
 
         if (argz[0].equals("beq")) {
           argz = beq(argz, br);
-          in.toMachine(argz);
-          System.out.println(in.getWord());
-          continue;
         } else if (argz[0].equals("j")) {
-
-          continue;
+          argz = j(addr, argz, br);
         }
 
         in.toMachine(argz);
         System.out.println(in.getWord());
+        addr = Integer.toHexString((Integer.parseInt(addr, 16) + 4));
       }
     }
   }
@@ -127,10 +124,11 @@ public class Main {
         break;
       }
       ++offset;
+
+      if (line.contains("la") || line.contains("blt")) ++offset;
     }
 
     StringBuilder sb = new StringBuilder(String.valueOf(offset));
-    while (sb.length() < 8) sb.insert(0, "0");
     sb.insert(0, "0x");
 
     instr[3] = sb.toString();
@@ -138,8 +136,29 @@ public class Main {
     return instr;
   }
 
-  private static void j() {
+  private static String[] j(String addr, String[] instr, BufferedReader br) throws IOException {
+    br.mark(1000);
 
+    while (br.ready()) {
+      String line = br.readLine();
+      line = line.trim();
+      if (line.isEmpty() || line.contains("#") || (line.contains(":") && !line.contains(instr[1]))) continue;
+      addr = Integer.toHexString((Integer.parseInt(addr, 16) + 4));
+      if (line.contains(instr[1])) break;
+
+      if (line.contains("la") || line.contains("blt"))
+        addr = Integer.toHexString((Integer.parseInt(addr, 16) + 4));
+
+    }
+
+    addr = Integer.toHexString(Integer.parseInt(addr, 16) / 4);
+
+    StringBuilder sb = new StringBuilder(addr);
+    sb.insert(0, "0x");
+    instr[1] = sb.toString();
+    br.reset();
+
+    return instr;
   }
 
   private static PseudoInstruction initPseudo(String line, String addr) {
