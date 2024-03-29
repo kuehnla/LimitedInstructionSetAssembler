@@ -58,12 +58,14 @@ public class Main {
     while (br.ready()) {
       br.mark(1);
       String line = br.readLine();
+      String checkLine = line;
+      checkLine = checkLine.trim();
 
-      if (line.isEmpty() || line.contains("#"))
+      if (checkLine.isEmpty() || line.contains("#"))
         continue;
 
       if (line.contains(":")) {
-
+        continue;
       }
 
       PseudoInstruction psIn = null;
@@ -90,9 +92,40 @@ public class Main {
           continue;
         }
       } else {
-//        Instruction in = initOp();
+        line = line.replaceAll("\\t", "");
+
+        String[] argz = line.split(" ");
+        for (String s : argz) {
+          System.out.print(s + " ");
+        }
+        if (argz[0].equals("beq")) {
+          beq(addr, argz, br);
+          continue;
+        } else if (argz[0].equals("j")) {
+
+          continue;
+        }
+
+        Instruction in = initOp(line.split(" ")[0]);
+        in.toMachine(argz);
+        System.out.println(in.getWord());
       }
     }
+  }
+
+  private static void beq(String addr, String[] instr, BufferedReader br) throws IOException {
+    br.mark(1000);
+    while (br.ready()) {
+      String line = br.readLine();
+      if (line.contains(instr[3])) {
+        break;
+      }
+      addr = Integer.toHexString((Integer.parseInt(addr, 16) + 4));
+    }
+  }
+
+  private static void j() {
+
   }
 
   private static PseudoInstruction initPseudo(String line, String addr) {
