@@ -6,6 +6,7 @@ package org.example;
 
 public class JumpType extends AbstractInstruction {
   String instrIndex;
+  String label;
   public JumpType() {
     op = "000010";
   }
@@ -15,7 +16,9 @@ public class JumpType extends AbstractInstruction {
    */
   @Override
   public void toMachine(String[] argz) {
-    setInstrIndex(argz);
+    if (argz.length > 1)
+      setInstrIndex(argz);
+    else setInstrIndex(label);
 
     StringBuilder sb = new StringBuilder(op);
     StringBuilder sbInd = new StringBuilder(instrIndex);
@@ -37,5 +40,9 @@ public class JumpType extends AbstractInstruction {
       break;
     }
     instrIndex = hexToBin(instrIndex.split("x")[1].split("#")[0], 26);
+  }
+
+  private void setInstrIndex(String label) {
+    // TODO: new logic for instruction index likely needed
   }
 }

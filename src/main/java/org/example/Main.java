@@ -62,8 +62,50 @@ public class Main {
       if (line.isEmpty() || line.contains("#"))
         continue;
 
+      if (line.contains(":")) {
 
+      }
+
+      PseudoInstruction psIn = null;
+      if (line.contains("li") || line.contains("la") || line.contains("blt")) {
+        psIn = initPseudo(line, addr);
+        if (psIn.type.equals("li")) {
+          psIn.toMachine(null);
+          bw.write(psIn.instructions[0]);
+          bw.newLine();
+          bw.flush();
+          addr = Integer.toHexString((Integer.parseInt(addr, 16) + 4));
+          continue;
+        } else if (psIn.type.equals("la")) {
+          String[] label = {dataAddrs.get(psIn.in[2])};
+          psIn.toMachine(label);
+          for (int i = 0; i < psIn.instructions.length; ++i) {
+            bw.write(psIn.instructions[i]);
+            bw.newLine();
+            bw.flush();
+            addr = Integer.toHexString((Integer.parseInt(addr, 16) + 4));
+          }
+          continue;
+        } else if (psIn.type.equals("blt")) {
+          continue;
+        }
+      } else {
+//        Instruction in = initOp();
+      }
     }
+  }
+
+  private static PseudoInstruction initPseudo(String line, String addr) {
+    int i = 0;
+    for (; i < line.length(); ++i)
+      if (line.charAt(i) != 9 || line.charAt(i) != 32) {
+        line = line.substring(i + 1);
+        break;
+      }
+
+    String[] instr = line.split(" ");
+
+    return new PseudoInstruction(instr, addr);
   }
 
   private static Map<String, String> data(BufferedReader br, String path) throws IOException {
@@ -209,8 +251,6 @@ public class Main {
       case "j" -> new JumpType();
       // SYSCALL:
       case "syscall" -> new Syscall();
-      // PSEUDO-INSTRUCTIONS:
-      case "li", "la", "blt" -> new PseudoInstruction(op);
       default -> null;
     };
   }
