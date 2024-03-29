@@ -65,6 +65,7 @@ public class Main {
         continue;
 
       if (line.contains(":")) {
+        labelAddrs.put(line, addr);
         continue;
       }
 
@@ -95,33 +96,46 @@ public class Main {
         line = line.replaceAll("\\t", "");
 
         String[] argz = line.split(" ");
-        for (String s : argz) {
-          System.out.print(s + " ");
-        }
+        Instruction in = initOp(line.split(" ")[0]);
+
         if (argz[0].equals("beq")) {
-          beq(addr, argz, br);
+          argz = beq(argz, br);
+          in.toMachine(argz);
+          System.out.println(in.getWord());
           continue;
         } else if (argz[0].equals("j")) {
 
           continue;
         }
 
-        Instruction in = initOp(line.split(" ")[0]);
         in.toMachine(argz);
         System.out.println(in.getWord());
       }
     }
   }
 
-  private static void beq(String addr, String[] instr, BufferedReader br) throws IOException {
+  private static String[] beq(String[] instr, BufferedReader br) throws IOException {
     br.mark(1000);
+    int offset = 0;
+
     while (br.ready()) {
       String line = br.readLine();
+      line = line.trim();
+
+      if (line.isEmpty() || line.contains("#")) continue;
       if (line.contains(instr[3])) {
         break;
       }
-      addr = Integer.toHexString((Integer.parseInt(addr, 16) + 4));
+      ++offset;
     }
+
+    StringBuilder sb = new StringBuilder(String.valueOf(offset));
+    while (sb.length() < 8) sb.insert(0, "0");
+    sb.insert(0, "0x");
+
+    instr[3] = sb.toString();
+    br.reset();
+    return instr;
   }
 
   private static void j() {
