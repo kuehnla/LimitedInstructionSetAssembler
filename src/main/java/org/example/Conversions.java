@@ -44,6 +44,11 @@ public class Conversions {
    * Converts a decimal integer to a bit string of specified length.
    */
   public static String decToBin(String dec, int bits) {
+    if (dec == null || dec.isEmpty()) {
+      StringBuilder sb = new StringBuilder("0");
+      while (sb.length() < bits) sb.insert(0,0);
+      return sb.toString();
+    }
     StringBuilder sb = new StringBuilder(Integer.toBinaryString(Integer.parseInt(dec)));
     while (sb.length() < bits) {
       sb.insert(0, 0);

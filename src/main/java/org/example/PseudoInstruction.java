@@ -88,19 +88,42 @@ public class PseudoInstruction extends AbstractInstruction {
   }
 
   public void loadAddress(String labelAddr) {
-    // LUI
-    StringBuilder sbLui = new StringBuilder("00111100000");
-    String rt = decToBin(registers("$at"), 5);
-    String imm = hexToBin(labelAddr.substring(0, 4), 16);
-    sbLui.append(rt);
-    sbLui.append(imm);
-    instructions[0] = Conversions.binToHex(sbLui.toString());
-
-    // ORI
     StringBuilder sbOri = new StringBuilder("001101");
-    sbOri.append(rt);
-    sbOri.append(decToBin(registers(in[1].replaceAll(",", "")), 5));
-    sbOri.append(hexToBin(labelAddr.substring(4 + 1), 16));
-    instructions[1] = Conversions.binToHex(sbOri.toString());
+    String rt = decToBin(registers("$at"), 5);
+    if (labelAddr != null) {
+      // LUI
+      StringBuilder sbLui = new StringBuilder("00111100000");
+      String imm = hexToBin(labelAddr.substring(0, 4), 16);
+      sbLui.append(rt);
+      sbLui.append(imm);
+      instructions[0] = Conversions.binToHex(sbLui.toString());
+
+      // ORI
+      sbOri.append(rt);
+      sbOri.append(decToBin(registers(in[1].replaceAll(",", "")), 5));
+      sbOri.append(hexToBin(labelAddr.substring(4 + 1), 16));
+      instructions[1] = Conversions.binToHex(sbOri.toString());
+    } else if (in.length >= 3 && !in[2].contains("#") && !in[2].contains("(")) {
+      // ADDIU
+      StringBuilder sbAddiu = new StringBuilder("00100100000");
+      sbAddiu.append(decToBin(registers(in[1]), 5));
+      sbAddiu.append(decToBin(in[2], 16));
+      instructions[0] = binToHex(sbAddiu.toString());
+    } else {
+      // ORI
+      sbOri.append("0000000001");
+//      sbOri.append(decToBin(registers(in[1].replaceAll(",", "")), 5));
+//      sbOri.append(hexToBin(labelAddr.substring(4 + 1), 16));
+      sbOri.append(decToBin(in[2].split("\\(")[0], 16));
+      instructions[0] = Conversions.binToHex(sbOri.toString());
+
+      // ADD
+      StringBuilder sbAdd = new StringBuilder("000000");
+      sbAdd.append(decToBin(registers(in[2].split("\\(")[1]), 5));
+      sbAdd.append("00001");
+      sbAdd.append(decToBin(registers(in[1].replaceAll(",", "")), 5));
+      sbAdd.append("00000100000");
+      instructions[1] = binToHex(sbAdd.toString());
+    }
   }
 }

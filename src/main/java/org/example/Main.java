@@ -83,6 +83,7 @@ public class Main {
           String[] label = {dataAddrs.get(psIn.in[2])};
           psIn.toMachine(label);
           for (int i = 0; i < psIn.instructions.length; ++i) {
+            if (psIn.instructions[i] == null) continue;
             bw.write(psIn.instructions[i]);
             bw.newLine();
             bw.flush();
