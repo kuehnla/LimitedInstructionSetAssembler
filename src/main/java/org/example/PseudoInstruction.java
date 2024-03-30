@@ -37,6 +37,9 @@ public class PseudoInstruction extends AbstractInstruction {
     }
   }
 
+  /*
+   * Generates hexadecimal machine code for the pseudo-instruction "load immediate".
+   */
   public void loadImmediate() {
     StringBuilder sb = new StringBuilder("001001");
     String rs = "00000";
@@ -49,6 +52,9 @@ public class PseudoInstruction extends AbstractInstruction {
     instructions[0] = binToHex(sb.toString());
   }
 
+  /*
+   * Generates hexadecimal machine code for the pseudo-instruction "branch less than".
+   */
   public void branchLessThan() throws IOException {
     // SLT
     StringBuilder sbSlt = new StringBuilder("000000");
@@ -87,6 +93,9 @@ public class PseudoInstruction extends AbstractInstruction {
     instructions[1] = binToHex(sbBne.toString());
   }
 
+  /*
+   * Generates hexadecimal machine code for the pseudo-instruction "load address".
+   */
   public void loadAddress(String labelAddr) {
     StringBuilder sbOri = new StringBuilder("001101");
     String rt = decToBin(registers("$at"), 5);
@@ -112,8 +121,6 @@ public class PseudoInstruction extends AbstractInstruction {
     } else {
       // ORI
       sbOri.append("0000000001");
-//      sbOri.append(decToBin(registers(in[1].replaceAll(",", "")), 5));
-//      sbOri.append(hexToBin(labelAddr.substring(4 + 1), 16));
       sbOri.append(decToBin(in[2].split("\\(")[0], 16));
       instructions[0] = Conversions.binToHex(sbOri.toString());
 

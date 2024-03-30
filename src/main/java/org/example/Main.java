@@ -21,6 +21,9 @@ public class Main {
     }
   }
 
+  /*
+   * Procedures for converting just a single instruction given through the command line.
+   */
   private static AbstractInstruction singleInstruction(String[] argz) {
     String op = null;
     for (String s : argz) {
@@ -33,6 +36,9 @@ public class Main {
     return initOp(op);
   }
 
+  /*
+   * Procedure for converting an entire assembly file and generating the .data and .text memory dump.
+   */
   private static void assemblyFile(String path) throws IOException {
     BufferedReader br = new BufferedReader(new FileReader(path));
     Map<String, String> dataAddrs = null;
@@ -47,6 +53,9 @@ public class Main {
     }
   }
 
+  /*
+   * Separate logic for .text portion of .asm file.
+   */
   private static void text(BufferedReader br, String path, Map<String, String> dataAddrs) throws IOException {
     String outName = fileName(path) + ".text";
     path = basePath(path) + outName;
@@ -121,6 +130,10 @@ public class Main {
     bw.close();
   }
 
+  /*
+   * Separate logic for beq instructions, mainly for the purpose of
+   * reading further into the file to locate labels.
+   */
   private static String[] beq(String[] instr, BufferedReader br) throws IOException {
     br.mark(1000);
     int offset = 0;
@@ -146,6 +159,11 @@ public class Main {
     return instr;
   }
 
+  /*
+   * Separate logic for j instructions, mainly for the purpose of
+   * reading further into the file to locate labels and calculate the
+   * immediate.
+   */
   private static String[] j(String addr, String[] instr, BufferedReader br) throws IOException {
     br.mark(1000);
 
@@ -171,6 +189,9 @@ public class Main {
     return instr;
   }
 
+  /*
+   * Similar to initOp but for pseudo-instruction types.
+   */
   private static PseudoInstruction initPseudo(String line, String addr, BufferedReader br) {
     int i = 0;
     for (; i < line.length(); ++i)
@@ -184,6 +205,9 @@ public class Main {
     return new PseudoInstruction(instr, addr, br);
   }
 
+  /*
+   * Separate logic for .data section of .asm file.
+   */
   private static Map<String, String> data(BufferedReader br, String path) throws IOException {
     String outName = fileName(path) + ".data";
     path = basePath(path) + outName;
@@ -267,6 +291,9 @@ public class Main {
     return dataAddrs;
   }
 
+  /*
+   * Logic for decimal and hexadecimal input.
+   */
   private static String wordType(String addr, String line, BufferedWriter bw) throws IOException {
     if (line.contains("0x"))
       bw.write(line.split("0x")[1]);
@@ -279,6 +306,9 @@ public class Main {
     return addr;
   }
 
+  /*
+   * Parses the path and removes the .asm file from the path.
+   */
   private static String basePath(String path) {
     int lastSlashIndex = path.lastIndexOf('/');
     if (lastSlashIndex != path.length() - 1) {
@@ -293,6 +323,10 @@ public class Main {
     return null;
   }
 
+  /*
+   * Parses the absolute path and retrieves the file name, in order to name
+   * the "AsmFileName".data and "AsmFileName".text files.
+   */
   private static String fileName(String path) {
     int lastSlashIndex = path.lastIndexOf('/');
     if (lastSlashIndex == path.length() - 1) {
@@ -306,6 +340,9 @@ public class Main {
     return path.substring(lastSlashIndex + 1).split("\\.")[0];
   }
 
+  /*
+   * Initializes an instruction based on opcode.
+   */
   private static AbstractInstruction initOp(String op) {
     return switch (op) {
       // R-TYPES:
