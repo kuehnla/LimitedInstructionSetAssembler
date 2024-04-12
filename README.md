@@ -1,3 +1,5 @@
+Continuation of this project --> https://github.com/Dennis-Smith414/MIPS-RISA-Simulator
+
 A simple Java program that converts a limited set of MIPS assembly instructions into hexadecimal machine code with the goal of furthering understanding of the relationship between 
 symbolic representations of code and machine code.
 
